@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S'gaw Karen Translator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header class="site-header">
+    <div class="brand-mark" aria-label="Karen">က</div>
+    <div class="brand-copy">
+      <b>KAREN LITERACY</b>
+      <h1>S'gaw Karen Translator</h1>
+      <p>English ↔ ကညီကျိာ်</p>
+    </div>
+    <div class="data-status">
+      <span id="dataDot"></span>
+      <span id="dataStatus">Loading language data…</span>
+    </div>
+  </header>
+
+  <main class="card translator-card">
+    <div class="toolbar">
+      <label>From
+        <select id="from">
+          <option value="auto">Detect automatically</option>
+          <option value="en">English</option>
+          <option value="kar">S'gaw Karen</option>
+        </select>
+      </label>
+      <button class="icon-button swap-button" id="swap" title="Swap languages" aria-label="Swap languages">⇄</button>
+      <label>To
+        <select id="to">
+          <option value="kar">S'gaw Karen</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+      <span id="status">Ready</span>
+    </div>
+
+    <div class="panes">
+      <section class="pane">
+        <div class="head">
+          <b id="fromTitle">English / S'gaw Karen</b>
+          <span id="count">0 characters</span>
+        </div>
+        <textarea id="input" spellcheck="false" placeholder="Type or paste English or S'gaw Karen here…"></textarea>
+        <div class="bottom">
+          <button class="secondary-button" id="clear">Clear</button>
+          <button class="secondary-button" id="voice" title="Speak">🎙 <span>Speak</span></button>
+          <button class="primary-button" id="translate">Translate</button>
+        </div>
+      </section>
+
+      <section class="pane">
+        <div class="head">
+          <b id="toTitle">S'gaw Karen</b>
+          <button class="copy-button" id="copy" title="Copy translation" aria-label="Copy translation">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="8" width="11" height="11" rx="2"></rect>
+              <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
+            </svg>
+          </button>
+        </div>
+        <div id="output" class="output">Your translation will appear here.</div>
+        <div class="bottom">
+          <button class="secondary-button" id="feedback">✎ Suggest a correction</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>Version 2.0.0 • S'gaw Karen Translator</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
