@@ -1,1 +1,249 @@
-
+{
+  "version": "1.0.0",
+  "entries": [
+    {
+      "english": "I love you",
+      "karen": "ယအဲၣ်နၤ"
+    },
+    {
+      "english": "Hello",
+      "karen": "ဟါလိၤ"
+    },
+{
+      "english": "selfie",
+      "karen": "ဒိလီၤနီၢ်ကစၢ်တၢ်ဂီၤ"
+    },
+    {
+      "english": "How are you?",
+      "karen": "နအိၣ်ဆူၣ်အိၣ်ချ့ဧါ"
+    },
+    {
+      "english": "I am fine",
+      "karen": "ယအိၣ်ဆူၣ်အိၣ်ချ့လီၤ"
+    },
+    {
+      "english": "Thank you",
+      "karen": "တၢ်ဘျုးတၢ်ဖှိၣ်"
+    },
+    {
+      "english": "Yes",
+      "karen": "မ့ၢ်"
+    },
+    {
+      "english": "No",
+      "karen": "တမ့ၢ်ဘၣ်"
+    },
+    {
+      "english": "My name is Soe.",
+      "karen": "ယမံၤမ့ၢ်စိ"
+    },
+    {
+      "english": "Where are you going?",
+      "karen": "နကလဲၤဖဲလဲၣ်"
+    },
+    {
+      "english": "I am going home.",
+      "karen": "ယကလဲၤဆူဟံၣ်"
+    },
+    {
+      "english": "I understand.",
+      "karen": "ယနၢ်ပၢၢ်"
+    },
+    {
+      "english": "I don't understand.",
+      "karen": "ယတနၢ်ပၢၢ်ဘၣ်"
+    },
+    {
+      "english": "Can you help me?",
+      "karen": "နမၤစၢၤယၤသ့ဧါ"
+    },
+    {
+      "english": "Help me.",
+      "karen": "မၤစၢၤယၤ"
+    },
+    {
+      "english": "Come here.",
+      "karen": "ဟဲဖဲအံၤ"
+    },
+    {
+      "english": "Water",
+      "karen": "ထံ"
+    },
+    {
+      "english": "Food",
+      "karen": "တၢ်အီၣ်"
+    },
+    {
+      "english": "House",
+      "karen": "ဟံၣ်"
+    },
+    {
+      "english": "School",
+      "karen": "ကၠိ"
+    },
+    {
+      "english": "Church",
+      "karen": "ဘူၣ်ကျီၢ်"
+    },
+    {
+      "english": "Friend",
+      "karen": "သကိး"
+    },
+    {
+      "english": "Mother",
+      "karen": "မိၢ်"
+    },
+    {
+      "english": "Father",
+      "karen": "ပၢ်"
+    },
+    {
+      "english": "Child",
+      "karen": "ဖိ"
+    },
+    {
+      "english": "Person",
+      "karen": "ပှၤ"
+    },
+    {
+      "english": "Today",
+      "karen": "မုၢ်မဆါတနံၤအံၤ"
+    },
+    {
+      "english": "Tomorrow",
+      "karen": "ခဲမုၢ်ဆါ"
+    },
+    {
+      "english": "What",
+      "karen": "မနုၤ"
+    },
+    {
+      "english": "Who",
+      "karen": "မတဂၤ"
+    },
+    {
+      "english": "Where",
+      "karen": "ဖဲလဲၣ်"
+    },
+    {
+      "english": "When",
+      "karen": "ဖဲလဲၣ်အခါ"
+    },
+    {
+      "english": "Why",
+      "karen": "ဘၣ်မနုၤလဲၣ်"
+    },
+    {
+      "english": "How",
+      "karen": "ဒ်လဲၣ်"
+    },
+    {
+      "english": "I",
+      "karen": "ယ"
+    },
+    {
+      "english": "You",
+      "karen": "န"
+    },
+    {
+      "english": "We",
+      "karen": "ပ"
+    },
+    {
+      "english": "They",
+      "karen": "အဝဲသ့ၣ်"
+    },
+    {
+      "english": "Name",
+      "karen": "မံၤ"
+    },
+    {
+      "english": "Home",
+      "karen": "ဟံၣ်"
+    },
+    {
+      "english": "Love",
+      "karen": "အဲၣ်"
+    },
+    {
+      "english": "Go",
+      "karen": "လဲၤ"
+    },
+    {
+      "english": "Come",
+      "karen": "ဟဲ"
+    },
+    {
+      "english": "Eat",
+      "karen": "အီၣ်"
+    },
+    {
+      "english": "Drink",
+      "karen": "အီ"
+    },
+    {
+      "english": "See",
+      "karen": "ထံၣ်"
+    },
+    {
+      "english": "Hear",
+      "karen": "နၢ်"
+    },
+    {
+      "english": "Speak",
+      "karen": "စံး"
+    },
+    {
+      "english": "Read",
+      "karen": "ဖး"
+    },
+    {
+      "english": "Write",
+      "karen": "ကွဲး"
+    },
+    {
+      "english": "Learn",
+      "karen": "မၤလိ"
+    },
+    {
+      "english": "Work",
+      "karen": "မၤတၢ်"
+    },
+    {
+      "english": "Good",
+      "karen": "ဂ့ၤ"
+    },
+    {
+      "english": "Bad",
+      "karen": "အၢ"
+    },
+    {
+      "english": "Big",
+      "karen": "ဒိၣ်"
+    },
+    {
+      "english": "Small",
+      "karen": "ဆံး"
+    },
+    {
+      "english": "New",
+      "karen": "အသီ"
+    },
+    {
+      "english": "Health",
+      "karen": "တၢ်အိၣ်ဆူၣ်အိၣ်ချ့"
+    },
+    {
+      "english": "Doctor",
+      "karen": "ကသံၣ်သရၣ်"
+    },
+    {
+      "english": "Hospital",
+      "karen": "တၢ်ဆါဟံၣ်"
+    },
+    {
+      "english": "Medicine",
+      "karen": "ကသံၣ်"
+    }
+  ]
+}
