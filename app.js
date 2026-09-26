@@ -1,767 +1,1939 @@
-/*
-  S'gaw Karen Translator
-  The JavaScript is the engine only.
-  Dictionary + grammar data live in remote JSON files.
+/* =========================================================
+   S'GAW KAREN TRANSLATOR
+   app.js
+   Version 1.1.0
 
-  IMPORTANT:
-  Replace DATA_BASE_URL with your GitHub repository's raw data folder.
-  Example:
-  https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/data
+   This file contains:
+   - Translation engine
+   - English → S'gaw Karen
+   - S'gaw Karen → English
+   - Automatic language detection
+   - Special Karen grammar rules
+   - Possessive pronouns
+   - Noun / abstract noun expressions
+   - Automatic translation while typing
+   - Copy
+   - Clear
+   - Swap
+   - Voice input
+   - Example phrases
+
+   IMPORTANT:
+   Your dictionary can continue to grow in:
+
+       data/dictionary.json
+
+   The grammar rules below are intentionally kept separate
+   from the dictionary so they can be expanded later.
+========================================================= */
+
+
+/* =========================================================
+   DICTIONARY
+   =========================================================
+
+   This embedded dictionary allows the application to work
+   even when index.html is opened directly from Windows.
+
+   Keep your existing dictionary entries here.
+
+   You can also continue updating:
+
+       data/dictionary.json
+
+   The entries below include the starter vocabulary and
+   the new grammar-related vocabulary.
+========================================================= */
+
+const dictionary = [
+    {
+        english: "I love you",
+        karen: "ယအဲၣ်နၤ"
+    },
+    {
+        english: "Hello",
+        karen: "မုၢ်ဆါ"
+    },
+    {
+        english: "How are you?",
+        karen: "နအိၣ်ဆူၣ်အိၣ်ချ့ဧါ"
+    },
+    {
+        english: "I am fine",
+        karen: "ယအိၣ်ဆူၣ်အိၣ်ချ့လီၤ"
+    },
+    {
+        english: "Thank you",
+        karen: "တၢ်ဘျုးတၢ်ဖှိၣ်"
+    },
+    {
+        english: "Yes",
+        karen: "မ့ၢ်"
+    },
+    {
+        english: "No",
+        karen: "တမ့ၢ်ဘၣ်"
+    },
+    {
+        english: "My name is Soe.",
+        karen: "ယမံၤမ့ၢ်စိ"
+    },
+    {
+        english: "Where are you going?",
+        karen: "နကလဲၤဖဲလဲၣ်"
+    },
+    {
+        english: "I am going home.",
+        karen: "ယကလဲၤဆူဟံၣ်"
+    },
+    {
+        english: "I understand.",
+        karen: "ယနၢ်ပၢၢ်"
+    },
+    {
+        english: "I don't understand.",
+        karen: "ယတနၢ်ပၢၢ်ဘၣ်"
+    },
+    {
+        english: "Can you help me?",
+        karen: "နမၤစၢၤယၤသ့ဧါ"
+    },
+    {
+        english: "Help me.",
+        karen: "မၤစၢၤယၤ"
+    },
+    {
+        english: "Come here.",
+        karen: "ဟဲဖဲအံၤ"
+    },
+    {
+        english: "Water",
+        karen: "ထံ"
+    },
+    {
+        english: "Food",
+        karen: "တၢ်အီၣ်"
+    },
+    {
+        english: "House",
+        karen: "ဟံၣ်"
+    },
+    {
+        english: "School",
+        karen: "ကၠိ"
+    },
+    {
+        english: "Church",
+        karen: "ဘူၣ်ကျီၢ်"
+    },
+    {
+        english: "Friend",
+        karen: "သကိး"
+    },
+    {
+        english: "Mother",
+        karen: "မိၢ်"
+    },
+    {
+        english: "Father",
+        karen: "ပၢ်"
+    },
+    {
+        english: "Child",
+        karen: "ဖိ"
+    },
+    {
+        english: "Person",
+        karen: "ပှၤ"
+    },
+    {
+        english: "Today",
+        karen: "မုၢ်မဆါတနံၤအံၤ"
+    },
+    {
+        english: "Tomorrow",
+        karen: "ခဲမုၢ်ဆါ"
+    },
+    {
+        english: "What",
+        karen: "မနုၤ"
+    },
+    {
+        english: "Who",
+        karen: "မတဂၤ"
+    },
+    {
+        english: "Where",
+        karen: "ဖဲလဲၣ်"
+    },
+    {
+        english: "When",
+        karen: "ဖဲလဲၣ်အခါ"
+    },
+    {
+        english: "Why",
+        karen: "ဘၣ်မနုၤလဲၣ်"
+    },
+    {
+        english: "How",
+        karen: "ဒ်လဲၣ်"
+    },
+    {
+        english: "I",
+        karen: "ယ"
+    },
+    {
+        english: "Me",
+        karen: "ယ"
+    },
+    {
+        english: "You",
+        karen: "န"
+    },
+    {
+        english: "We",
+        karen: "ပ"
+    },
+    {
+        english: "Us",
+        karen: "ပ၀ဲသ့ၣ်"
+    },
+    {
+        english: "They",
+        karen: "အ၀ဲသ့ၣ်"
+    },
+    {
+        english: "Name",
+        karen: "မံၤ"
+    },
+    {
+        english: "Home",
+        karen: "ဟံၣ်"
+    },
+    {
+        english: "Love",
+        karen: "အဲၣ်"
+    },
+    {
+        english: "Go",
+        karen: "လဲၤ"
+    },
+    {
+        english: "Come",
+        karen: "ဟဲ"
+    },
+    {
+        english: "Eat",
+        karen: "အီၣ်"
+    },
+    {
+        english: "Drink",
+        karen: "အီ"
+    },
+    {
+        english: "See",
+        karen: "ထံၣ်"
+    },
+    {
+        english: "Hear",
+        karen: "နၢ်"
+    },
+    {
+        english: "Speak",
+        karen: "စံး"
+    },
+    {
+        english: "Read",
+        karen: "ဖး"
+    },
+    {
+        english: "Write",
+        karen: "ကွဲး"
+    },
+    {
+        english: "Learn",
+        karen: "မၤလိ"
+    },
+    {
+        english: "Work",
+        karen: "မၤတၢ်"
+    },
+    {
+        english: "Good",
+        karen: "ဂ့ၤ"
+    },
+    {
+        english: "Bad",
+        karen: "အၢ"
+    },
+    {
+        english: "Big",
+        karen: "ဒိၣ်"
+    },
+    {
+        english: "Small",
+        karen: "ဆံး"
+    },
+    {
+        english: "New",
+        karen: "အသီ"
+    },
+    {
+        english: "Health",
+        karen: "တၢ်အိၣ်ဆူၣ်အိၣ်ချ့"
+    },
+    {
+        english: "Doctor",
+        karen: "ကသံၣ်သရၣ်"
+    },
+    {
+        english: "Hospital",
+        karen: "ဆေးရုံ"
+    },
+    {
+        english: "Medicine",
+        karen: "ကသံၣ်"
+    },
+
+
+    /* =====================================================
+       NEW GRAMMAR / PRONOUN ENTRIES
+    ===================================================== */
+
+    {
+        english: "He",
+        karen: "အ"
+    },
+    {
+        english: "She",
+        karen: "အ"
+    },
+    {
+        english: "He / She",
+        karen: "အ"
+    },
+
+    {
+        english: "My",
+        karen: "ယတၢ်"
+    },
+    {
+        english: "Mine",
+        karen: "ယတၢ်"
+    },
+    {
+        english: "My / Mine",
+        karen: "ယတၢ်"
+    },
+
+    {
+        english: "Your",
+        karen: "နတၢ်"
+    },
+    {
+        english: "Yours",
+        karen: "နတၢ်"
+    },
+    {
+        english: "Your / Yours",
+        karen: "နတၢ်"
+    },
+
+    {
+        english: "His",
+        karen: "အတၢ်"
+    },
+    {
+        english: "Hers",
+        karen: "အတၢ်"
+    },
+    {
+        english: "His / Hers",
+        karen: "အတၢ်"
+    },
+
+    {
+        english: "Our",
+        karen: "ပတၢ်"
+    },
+    {
+        english: "Ours",
+        karen: "ပတၢ်"
+    },
+    {
+        english: "Our / Ours",
+        karen: "ပတၢ်"
+    },
+
+    {
+        english: "Our / Ours (plural)",
+        karen: "ပ၀ဲသ့ၣ်တၢ်"
+    },
+
+    {
+        english: "Their",
+        karen: "အ၀ဲသ့ၣ်တၢ်"
+    },
+    {
+        english: "Theirs",
+        karen: "အ၀ဲသ့ၣ်တၢ်"
+    },
+    {
+        english: "Their / Theirs",
+        karen: "အ၀ဲသ့ၣ်တၢ်"
+    },
+
+    {
+        english: "Noun marker",
+        karen: "တၢ်"
+    },
+
+
+    /* =====================================================
+       NOUN / ABSTRACT NOUN EXPRESSIONS
+    ===================================================== */
+
+    {
+        english: "Love (noun)",
+        karen: "တၢ်အဲၣ်"
+    },
+    {
+        english: "Love / Affection",
+        karen: "တၢ်အဲၣ်တၢ်ကွံ"
+    },
+    {
+        english: "Patience",
+        karen: "တၢ်သူၣ်စူၤသးစူၤ"
+    },
+    {
+        english: "Good deeds",
+        karen: "တၢ်မၤဂ့ၤတၢ်"
+    },
+    {
+        english: "A talk",
+        karen: "တၢ်တဲတၢ်"
+    },
+    {
+        english: "Conversation",
+        karen: "တၢ်တဲတၢ်"
+    },
+    {
+        english: "Speaking / Conversation",
+        karen: "တၢ်ကတိၤတၢ်"
+    }
+];
+
+
+/* =========================================================
+   UTILITY FUNCTIONS
+========================================================= */
+
+
+/*
+   Normalize English text for matching.
+*/
+function normalizeEnglish(text) {
+
+    return text
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+}
+
+
+/*
+   Normalize Karen text.
+
+   We intentionally DO NOT change Karen characters.
+   This prevents accidental changes to Karen Unicode.
+*/
+function normalizeKaren(text) {
+
+    return text
+        .trim()
+        .replace(/\s+/g, " ");
+}
+
+
+/*
+   Detect whether text is primarily S'gaw Karen / Myanmar
+   Unicode or English / Latin text.
+*/
+function isKaren(text) {
+
+    const karenCharacters =
+        (text.match(/[\u1000-\u109F\uAA60-\uAA7F\uA9E0-\uA9FF]/g) || []).length;
+
+    const englishCharacters =
+        (text.match(/[A-Za-z]/g) || []).length;
+
+    return karenCharacters > englishCharacters;
+}
+
+
+/*
+   Escape special characters for regular expressions.
+*/
+function escapeRegex(text) {
+
+    return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+
+/*
+   Remove ending punctuation temporarily.
+*/
+function removeEndingPunctuation(text) {
+
+    return text
+        .trim()
+        .replace(/[.,!?;:]+$/, "")
+        .trim();
+}
+
+
+/*
+   Put punctuation back after translation.
+*/
+function restorePunctuation(original, translated) {
+
+    const punctuationMatch =
+        original.trim().match(/[.,!?;:]+$/);
+
+    if (punctuationMatch) {
+
+        return translated + punctuationMatch[0];
+
+    }
+
+    return translated;
+}
+
+
+/* =========================================================
+   S'GAW KAREN GRAMMAR RULES
+========================================================= */
+
+
+/*
+   ---------------------------------------------------------
+   POSSESSIVE PRONOUNS
+   ---------------------------------------------------------
+
+   IMPORTANT:
+
+       ယတၢ်
+       = my / mine
+
+       နတၢ်
+       = your / yours
+
+       အတၢ်
+       = his / hers
+
+       ပတၢ်
+       = our / ours
+
+       ပ၀ဲသ့ၣ်တၢ်
+       = our / ours / belonging to us
+
+       အ၀ဲသ့ၣ်တၢ်
+       = their / theirs
+
+   The word တၢ် following the pronoun changes the
+   construction into a possessive expression.
 */
 
-const DATA_BASE_URL =
-  "https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/data";
+const KAREN_POSSESSIVE = {
 
-const LOCAL_DATA_BASE = "./data";
+    "ယတၢ်": "my / mine",
 
-const $ = id => document.getElementById(id);
+    "နတၢ်": "your / yours",
 
-const input = $("input");
-const output = $("output");
-const from = $("from");
-const to = $("to");
-const status = $("status");
+    "အတၢ်": "his / hers",
 
-let DATA = {
-  dictionary: null,
-  grammar: null
+    "ပတၢ်": "our / ours",
+
+    "ပ၀ဲသ့ၣ်တၢ်": "our / ours",
+
+    "ပဝဲသ့ၣ်တၢ်": "our / ours",
+
+    "အ၀ဲသ့ၣ်တၢ်": "their / theirs",
+
+    "အဝဲသ့ၣ်တၢ်": "their / theirs"
 };
 
 
-/* ============================================================
-   DATA LOADING
-   ============================================================ */
-
-async function fetchJSON(base, file) {
-  const response = await fetch(`${base}/${file}?v=${Date.now()}`, {
-    cache: "no-store"
-  });
-
-  if (!response.ok) {
-    throw new Error(`${file}: HTTP ${response.status}`);
-  }
-
-  return response.json();
-}
-
-async function loadLanguageData() {
-  const bases = [];
-
-  if (
-    DATA_BASE_URL &&
-    !DATA_BASE_URL.includes("YOUR-USERNAME") &&
-    !DATA_BASE_URL.includes("YOUR-REPO")
-  ) {
-    bases.push(DATA_BASE_URL);
-  }
-
-  bases.push(LOCAL_DATA_BASE);
-
-  let lastError = null;
-
-  for (const base of bases) {
-    try {
-      const [dictionary, grammar] = await Promise.all([
-        fetchJSON(base, "dictionary.json"),
-        fetchJSON(base, "grammar.json")
-      ]);
-
-      DATA.dictionary = dictionary;
-      DATA.grammar = grammar;
-
-      setDataStatus("Language data loaded", "online");
-
-      return;
-    } catch (error) {
-      lastError = error;
-    }
-  }
-
-  setDataStatus("Language data unavailable", "error");
-  console.error(lastError);
-
-  DATA.dictionary = {
-    nouns: {},
-    phrases: [],
-    pronouns: {},
-    special_nouns: [],
-    possession_indicator: "တၢ်"
-  };
-
-  DATA.grammar = {
-    pronoun_order: [],
-    variants: {},
-    rules: {},
-    possession: {}
-  };
-}
-
-function setDataStatus(message, state) {
-  const dot = $("dataDot");
-  const label = $("dataStatus");
-
-  if (dot) {
-    dot.className = state || "";
-  }
-
-  if (label) {
-    label.textContent = message;
-  }
-}
-
-
-/* ============================================================
-   TEXT HELPERS
-   ============================================================ */
-
-function normalize(s) {
-  return String(s)
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, " ");
-}
-
-function normalizeKaren(s) {
-  let value = String(s).trim();
-
-  const variants = DATA.grammar?.variants || {};
-
-  for (const [variant, canonical] of Object.entries(variants)) {
-    value = value.split(variant).join(canonical);
-  }
-
-  return value;
-}
-
-function isKaren(s) {
-  const k =
-    (s.match(/[\u1000-\u109F\uAA60-\uAA7F\uA9E0-\uA9FF]/g) || [])
-      .length;
-
-  const e = (s.match(/[A-Za-z]/g) || []).length;
-
-  return k > e;
-}
-
-function esc(s) {
-  return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function stripPunctuation(word) {
-  return word.replace(/^[“"‘'([{]+|[,.!?;:၊။”"’')\]}]+$/g, "");
-}
-
-
-/* ============================================================
-   DATA ACCESS
-   ============================================================ */
-
-function getNouns() {
-  return Object.entries(DATA.dictionary?.nouns || {})
-    .sort((a, b) => b[0].length - a[0].length);
-}
-
-function getPhrases() {
-  return Array.isArray(DATA.dictionary?.phrases)
-    ? DATA.dictionary.phrases
-    : [];
-}
-
-function getSpecialNouns() {
-  return Array.isArray(DATA.dictionary?.special_nouns)
-    ? DATA.dictionary.special_nouns
-    : [];
-}
-
-function getPronounOrder() {
-  return (
-    DATA.grammar?.pronoun_order ||
-    Object.keys(DATA.dictionary?.pronouns || {})
-  ).slice().sort((a, b) => b.length - a.length);
-}
-
-
-/* ============================================================
-   CONTEXT-AWARE KAREN GRAMMAR
-   ============================================================ */
-
 /*
-  Instead of translating every word independently, inspect
-  the surrounding structure.
+   ---------------------------------------------------------
+   STANDALONE PRONOUNS
+   ---------------------------------------------------------
 
-  Examples:
+   အ by itself:
 
-  အ
-  -> he/she
+       he / she
 
-  အတၢ်
-  -> his/her
+   It is gender-neutral.
 
-  အမံၤ
-  -> his/her name
+   အ၀ဲသ့ၣ် by itself:
 
-  အဝဲသ့ၣ်
-  -> they
+       they
 
-  အဝဲသ့ၣ်တၢ်
-  -> their
-
-  အဝဲသ့ၣ်ဟံၣ်
-  -> their house
+   It becomes possessive only when followed by တၢ်.
 */
 
-function getPronounInfo(pronoun) {
-  const canonical =
-    DATA.grammar?.variants?.[pronoun] || pronoun;
+const KAREN_PRONOUNS = {
 
-  return DATA.dictionary?.pronouns?.[canonical] || null;
-}
+    "ယ": "I / me",
 
-function translateKarenPossessive(prefix, noun) {
-  const info = getPronounInfo(prefix);
+    "န": "you",
 
-  if (!info) {
+    "အ": "he / she",
+
+    "ပ": "we / us",
+
+    "ပ၀ဲသ့ၣ်": "we / us",
+
+    "ပဝဲသ့ၣ်": "we / us",
+
+    "အ၀ဲသ့ၣ်": "they",
+
+    "အဝဲသ့ၣ်": "they"
+};
+
+
+/*
+   ---------------------------------------------------------
+   NOUN / ABSTRACT NOUN EXPRESSIONS
+   ---------------------------------------------------------
+
+   These are treated as complete expressions.
+
+   This is important because:
+
+       တၢ်အဲၣ်
+       = love
+
+   and:
+
+       တၢ်အဲၣ်တၢ်ကွံ
+       = love / affection
+
+   are both valid expressions.
+*/
+
+const KAREN_NOUNS = {
+
+    "တၢ်အဲၣ်":
+        "love",
+
+    "တၢ်အဲၣ်တၢ်ကွံ":
+        "love / affection",
+
+    "တၢ်သူၣ်စူၤသးစူၤ":
+        "patience",
+
+    "တၢ်မၤဂ့ၤတၢ်":
+        "good deeds",
+
+    "တၢ်တဲတၢ်":
+        "a talk / conversation",
+
+    "တၢ်ကတိၤတၢ်":
+        "speaking / conversation"
+};
+
+
+/* =========================================================
+   SPECIAL KAREN → ENGLISH TRANSLATION
+========================================================= */
+
+function translateKarenSpecialCase(text) {
+
+    const original = text.trim();
+
+    const clean = removeEndingPunctuation(original);
+
+
+    /*
+       -----------------------------------------------------
+       STEP 1
+       POSSESSIVE CONSTRUCTIONS
+       -----------------------------------------------------
+
+       Check these FIRST.
+
+       This prevents:
+
+           အတၢ်
+
+       from being incorrectly interpreted as:
+
+           အ = he/she
+           တၢ် = noun marker
+    */
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            KAREN_POSSESSIVE,
+            clean
+        )
+    ) {
+
+        return restorePunctuation(
+            original,
+            KAREN_POSSESSIVE[clean]
+        );
+    }
+
+
+    /*
+       -----------------------------------------------------
+       STEP 2
+       COMPLETE NOUN EXPRESSIONS
+       -----------------------------------------------------
+
+       Longer expressions must be checked before shorter
+       expressions.
+
+       Example:
+
+           တၢ်အဲၣ်တၢ်ကွံ
+
+       should be recognized as one expression.
+    */
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            KAREN_NOUNS,
+            clean
+        )
+    ) {
+
+        return restorePunctuation(
+            original,
+            KAREN_NOUNS[clean]
+        );
+    }
+
+
+    /*
+       -----------------------------------------------------
+       STEP 3
+       STANDALONE PRONOUNS
+       -----------------------------------------------------
+    */
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            KAREN_PRONOUNS,
+            clean
+        )
+    ) {
+
+        return restorePunctuation(
+            original,
+            KAREN_PRONOUNS[clean]
+        );
+    }
+
+
+    /*
+       -----------------------------------------------------
+       STEP 4
+       GENERIC NOUN MARKER
+       -----------------------------------------------------
+
+       တၢ် is an indicator of a noun / thing / concept.
+
+       If the phrase starts with တၢ်,
+       we check the rest of the phrase.
+
+       Example:
+
+           တၢ် + noun
+
+       Instead of automatically translating တၢ် as
+       "thing", we try to translate the noun portion.
+    */
+
+    if (
+        clean.startsWith("တၢ်") &&
+        clean.length > 2
+    ) {
+
+        const nounPart =
+            clean.substring(2).trim();
+
+
+        /*
+           First check our special noun dictionary.
+        */
+
+        if (
+            Object.prototype.hasOwnProperty.call(
+                KAREN_NOUNS,
+                clean
+            )
+        ) {
+
+            return restorePunctuation(
+                original,
+                KAREN_NOUNS[clean]
+            );
+        }
+
+
+        /*
+           Then search the normal dictionary.
+        */
+
+        const entry = dictionary.find(
+            item =>
+                item.karen &&
+                normalizeKaren(item.karen) === nounPart
+        );
+
+
+        if (entry) {
+
+            return restorePunctuation(
+                original,
+                entry.english
+            );
+        }
+    }
+
+
+    /*
+       No special grammar rule matched.
+       Let the normal translator handle it.
+    */
+
     return null;
-  }
+}
 
-  const nouns = getNouns();
 
-  const nounEntry = nouns.find(
-    ([karen]) => normalizeKaren(karen) === normalizeKaren(noun)
-  );
+/* =========================================================
+   ENGLISH → KAREN SPECIAL CASES
+========================================================= */
 
-  if (!nounEntry) {
+const ENGLISH_SPECIAL_CASES = {
+
+
+    /*
+       -----------------------------------------------------
+       GENDER-NEUTRAL PRONOUN
+       -----------------------------------------------------
+
+       Both "he" and "she" become:
+
+           အ
+    */
+
+    "he": "အ",
+
+    "she": "အ",
+
+    "he / she": "အ",
+
+    "he/she": "အ",
+
+
+    /*
+       -----------------------------------------------------
+       POSSESSIVE
+       -----------------------------------------------------
+    */
+
+    "my": "ယတၢ်",
+
+    "mine": "ယတၢ်",
+
+    "my / mine": "ယတၢ်",
+
+    "my/mine": "ယတၢ်",
+
+
+    "your": "နတၢ်",
+
+    "yours": "နတၢ်",
+
+    "your / yours": "နတၢ်",
+
+    "your/yours": "နတၢ်",
+
+
+    "his": "အတၢ်",
+
+    "hers": "အတၢ်",
+
+    "his / hers": "အတၢ်",
+
+    "his/hers": "အတၢ်",
+
+
+    "our": "ပတၢ်",
+
+    "ours": "ပတၢ်",
+
+    "our / ours": "ပတၢ်",
+
+    "our/ours": "ပတၢ်",
+
+
+    "us": "ပ၀ဲသ့ၣ်",
+
+
+    "their": "အ၀ဲသ့ၣ်တၢ်",
+
+    "theirs": "အ၀ဲသ့ၣ်တၢ်",
+
+    "their / theirs": "အ၀ဲသ့ၣ်တၢ်",
+
+    "their/theirs": "အ၀ဲသ့ၣ်တၢ်",
+
+
+    /*
+       -----------------------------------------------------
+       NOUN / ABSTRACT NOUNS
+       -----------------------------------------------------
+    */
+
+    "love (noun)": "တၢ်အဲၣ်",
+
+    "love / affection": "တၢ်အဲၣ်တၢ်ကွံ",
+
+    "patience": "တၢ်သူၣ်စူၤသးစူၤ",
+
+    "good deeds": "တၢ်မၤဂ့ၤတၢ်",
+
+    "a talk": "တၢ်တဲတၢ်",
+
+    "conversation": "တၢ်တဲတၢ်",
+
+    "speaking / conversation": "တၢ်ကတိၤတၢ်"
+};
+
+
+/* =========================================================
+   SPECIAL ENGLISH → KAREN FUNCTION
+========================================================= */
+
+function translateEnglishSpecialCase(text) {
+
+    const original = text.trim();
+
+    const clean =
+        removeEndingPunctuation(original)
+            .toLowerCase();
+
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            ENGLISH_SPECIAL_CASES,
+            clean
+        )
+    ) {
+
+        return restorePunctuation(
+            original,
+            ENGLISH_SPECIAL_CASES[clean]
+        );
+    }
+
+
     return null;
-  }
-
-  return `${info.possessive} ${nounEntry[1]}`;
 }
 
-function translateKarenToken(token) {
-  const raw = token;
-  const clean = stripPunctuation(token);
-  const punctuation = token.slice(clean.length);
 
-  if (!clean) {
-    return raw;
-  }
+/* =========================================================
+   BUILD DICTIONARY LOOKUP TABLES
+========================================================= */
 
-  const word = normalizeKaren(clean);
-  const pronouns = getPronounOrder();
+const englishDictionary = new Map();
 
-  /*
-    1. Full pronoun + noun combinations.
-    This must happen before checking a single pronoun.
-  */
+const karenDictionary = new Map();
 
-  for (const prefix of pronouns) {
-    const p = normalizeKaren(prefix);
 
-    if (!word.startsWith(p) || word === p) {
-      continue;
+dictionary.forEach(entry => {
+
+    if (!entry.english || !entry.karen) {
+        return;
     }
 
-    const remainder = word.slice(p.length);
+
+    const englishKey =
+        normalizeEnglish(entry.english);
+
+    const karenKey =
+        normalizeKaren(entry.karen);
+
+
+    englishDictionary.set(
+        englishKey,
+        entry.karen
+    );
+
 
     /*
-      Pronoun + တၢ် = possessive indicator.
+       If multiple English meanings point to the same Karen
+       word, keep the first English meaning.
+
+       Grammar rules above take priority over this table.
     */
 
-    if (remainder === (DATA.dictionary?.possession_indicator || "တၢ်")) {
-      const info = getPronounInfo(prefix);
-      if (info) {
-        return info.possessive + punctuation;
-      }
+    if (!karenDictionary.has(karenKey)) {
+
+        karenDictionary.set(
+            karenKey,
+            entry.english
+        );
     }
 
-    /*
-      Pronoun + noun.
-    */
-
-    const translated = translateKarenPossessive(prefix, remainder);
-
-    if (translated) {
-      return translated + punctuation;
-    }
-  }
-
-  /*
-    2. Standalone pronouns.
-  */
-
-  const info = getPronounInfo(word);
-
-  if (info) {
-    return info.subject + punctuation;
-  }
-
-  /*
-    3. Standalone noun.
-  */
-
-  const nounEntry = getNouns().find(
-    ([karen]) => normalizeKaren(karen) === word
-  );
-
-  if (nounEntry) {
-    return nounEntry[1] + punctuation;
-  }
-
-  return raw;
-}
+});
 
 
-/* ============================================================
-   SPECIAL NOUN / COUPLET EXPRESSIONS
-   ============================================================ */
-
-function translateSpecialKarenExpression(text) {
-  let result = text;
-
-  const entries = getSpecialNouns()
-    .slice()
-    .sort((a, b) => b.karen.length - a.karen.length);
-
-  for (const entry of entries) {
-    const re = new RegExp(
-      `(^|\\s)${esc(entry.karen)}(?=\\s|[,.!?;:၊။]|$)`,
-      "g"
-    );
-
-    result = result.replace(
-      re,
-      (match, prefix) => prefix + entry.english
-    );
-  }
-
-  return result;
-}
-
-
-/* ============================================================
-   KAREN -> ENGLISH CONTEXT ENGINE
-   ============================================================ */
-
-function translateKarenToEnglish(text) {
-  /*
-    Long expressions first.
-  */
-  let result = translateSpecialKarenExpression(text);
-
-  /*
-    Token-level grammar handles:
-      ယမံၤ
-      နဟံၣ်
-      အမံၤ
-      အဝဲသ့ၣ်ဟံၣ်
-      အတၢ်
-      etc.
-  */
-
-  result = result
-    .split(/(\s+)/)
-    .map(token => {
-      if (/^\s+$/.test(token)) {
-        return token;
-      }
-
-      /*
-        If a special expression already became English,
-        leave it alone.
-      */
-      if (/^[A-Za-z]/.test(token)) {
-        return token;
-      }
-
-      return translateKarenToken(token);
-    })
-    .join("");
-
-  /*
-    Context-sensitive pronoun correction.
-
-    If အ is immediately followed by an English noun
-    after grammar processing, its possessive meaning has
-    already been resolved as his/her.
-  */
-
-  return result;
-}
-
-
-/* ============================================================
-   ENGLISH -> KAREN CONTEXT ENGINE
-   ============================================================ */
-
-function translateEnglishPossessiveNouns(text) {
-  let result = text;
-
-  const pronouns = DATA.dictionary?.pronouns || {};
-
-  /*
-    Build reverse possessive map from remote data.
-  */
-
-  const possessionMap = [];
-
-  for (const [karen, info] of Object.entries(pronouns)) {
-    if (info?.possessive) {
-      possessionMap.push([
-        info.possessive,
-        karen
-      ]);
-    }
-  }
-
-  /*
-    Longer/more specific forms first.
-  */
-
-  possessionMap.sort(
-    (a, b) => b[0].length - a[0].length
-  );
-
-  const nouns = getNouns();
-
-  for (const [englishPossessive, karenPronoun] of possessionMap) {
-    for (const [karenNoun, englishNoun] of nouns) {
-      const re = new RegExp(
-        `\\b${esc(englishPossessive)}\\s+${esc(englishNoun)}\\b`,
-        "gi"
-      );
-
-      result = result.replace(
-        re,
-        () => karenPronoun + karenNoun
-      );
-    }
-  }
-
-  return result;
-}
-
-function translateEnglishSpecialNouns(text) {
-  let result = text;
-
-  const entries = getSpecialNouns()
-    .slice()
-    .sort((a, b) => b.english.length - a.english.length);
-
-  for (const entry of entries) {
-    /*
-      Prefer exact expression matching.
-    */
-    const phrase = entry.english.split(" / ")[0];
-
-    const re = new RegExp(
-      `\\b${esc(phrase)}\\b`,
-      "gi"
-    );
-
-    result = result.replace(re, entry.karen);
-  }
-
-  return result;
-}
-
-
-/* ============================================================
-   NORMAL DICTIONARY TRANSLATION
-   ============================================================ */
-
-function translateWithDictionary(text, source) {
-  const phrases = getPhrases();
-
-  let result = text;
-
-  const entries = phrases
-    .slice()
-    .sort(
-      (a, b) =>
-        (source === "en"
-          ? b.english.length - a.english.length
-          : b.karen.length - a.karen.length)
-    );
-
-  for (const entry of entries) {
-    const sourcePhrase =
-      source === "en"
-        ? entry.english
-        : entry.karen;
-
-    const targetPhrase =
-      source === "en"
-        ? entry.karen
-        : entry.english;
-
-    const re = new RegExp(
-      `(^|\\s)${esc(sourcePhrase)}(?=\\s|[,.!?;:]|$)`,
-      source === "en" ? "gi" : "g"
-    );
-
-    result = result.replace(
-      re,
-      (match, prefix) => prefix + targetPhrase
-    );
-  }
-
-  return result;
-}
-
-
-/* ============================================================
-   MAIN TRANSLATOR
-   ============================================================ */
+/* =========================================================
+   MAIN TRANSLATION FUNCTION
+========================================================= */
 
 function translate(text, source) {
-  const clean = text.trim();
 
-  if (!clean) {
-    return null;
-  }
+    if (!text || !text.trim()) {
 
-  /*
-    Exact phrase lookup first.
-  */
-
-  const exact = getPhrases().find(entry =>
-    source === "en"
-      ? normalize(entry.english) === normalize(clean)
-      : normalizeKaren(entry.karen) === normalizeKaren(clean)
-  );
-
-  if (exact) {
-    return source === "en"
-      ? exact.karen
-      : exact.english;
-  }
-
-  /*
-    Context-aware grammar before generic word matching.
-  */
-
-  if (source === "kar") {
-    const grammarResult =
-      translateKarenToEnglish(clean);
-
-    if (grammarResult !== clean) {
-      return grammarResult;
+        return null;
     }
 
-    return translateWithDictionary(clean, source);
-  }
 
-  /*
-    English -> Karen.
-  */
+    const cleanText =
+        text.trim();
 
-  let result =
-    translateEnglishPossessiveNouns(clean);
 
-  result =
-    translateEnglishSpecialNouns(result);
+    /* =====================================================
+       SPECIAL GRAMMAR FIRST
+    ===================================================== */
 
-  result =
-    translateWithDictionary(result, source);
+    if (source === "kar") {
 
-  return result !== clean
-    ? result
-    : null;
+        const specialResult =
+            translateKarenSpecialCase(cleanText);
+
+
+        if (specialResult !== null) {
+
+            return specialResult;
+        }
+    }
+
+
+    if (source === "en") {
+
+        const specialResult =
+            translateEnglishSpecialCase(cleanText);
+
+
+        if (specialResult !== null) {
+
+            return specialResult;
+        }
+    }
+
+
+    /* =====================================================
+       EXACT DICTIONARY MATCH
+    ===================================================== */
+
+    if (source === "en") {
+
+        const exact =
+            englishDictionary.get(
+                normalizeEnglish(cleanText)
+            );
+
+
+        if (exact) {
+
+            return exact;
+        }
+
+    } else {
+
+        const exact =
+            karenDictionary.get(
+                normalizeKaren(cleanText)
+            );
+
+
+        if (exact) {
+
+            return exact;
+        }
+    }
+
+
+    /* =====================================================
+       PHRASE / WORD-BY-WORD MATCH
+    ===================================================== */
+
+    let result =
+        cleanText;
+
+
+    /*
+       Sort longest entries first.
+
+       This is important for phrases such as:
+
+           တၢ်အဲၣ်တၢ်ကွံ
+
+       before:
+
+           တၢ်အဲၣ်
+    */
+
+    let entries;
+
+
+    if (source === "en") {
+
+        entries =
+            [...englishDictionary.entries()]
+                .sort(
+                    (a, b) =>
+                        b[0].length - a[0].length
+                );
+
+    } else {
+
+        entries =
+            [...karenDictionary.entries()]
+                .sort(
+                    (a, b) =>
+                        b[0].length - a[0].length
+                );
+    }
+
+
+    entries.forEach(
+        ([phrase, translation]) => {
+
+            if (!phrase || phrase.length < 1) {
+                return;
+            }
+
+
+            /*
+               English → Karen
+            */
+
+            if (source === "en") {
+
+                const escapedPhrase =
+                    escapeRegex(phrase);
+
+
+                const regex =
+                    new RegExp(
+                        "(^|\\s)" +
+                        escapedPhrase +
+                        "(?=\\s|[,.!?;:]|$)",
+                        "gi"
+                    );
+
+
+                result =
+                    result.replace(
+                        regex,
+                        (match, beginning) =>
+                            beginning + translation
+                    );
+            }
+
+
+            /*
+               Karen → English
+            */
+
+            else {
+
+                result =
+                    result.split(
+                        phrase
+                    ).join(
+                        translation
+                    );
+            }
+
+        }
+    );
+
+
+    /*
+       If something changed, return it.
+    */
+
+    if (result !== cleanText) {
+
+        return result;
+    }
+
+
+    /*
+       Nothing was found.
+    */
+
+    return null;
 }
 
 
-/* ============================================================
-   APP
-   ============================================================ */
+/* =========================================================
+   MAIN UI TRANSLATION
+========================================================= */
 
-function run() {
-  $("count").textContent =
-    input.value.length + " characters";
+function runTranslation() {
 
-  $("fromTitle").textContent =
-    from.value === "en"
-      ? "English"
-      : from.value === "kar"
-        ? "S'gaw Karen"
-        : "English / S'gaw Karen";
+    const inputElement =
+        document.getElementById("input");
 
-  $("toTitle").textContent =
-    to.value === "en"
-      ? "English"
-      : "S'gaw Karen";
+    const outputElement =
+        document.getElementById("output");
 
-  const text = input.value.trim();
+    const fromElement =
+        document.getElementById("from");
 
-  if (!text) {
-    output.textContent =
-      "Your translation will appear here.";
+    const toElement =
+        document.getElementById("to");
 
-    status.textContent = "Ready";
-    return;
-  }
+    const statusElement =
+        document.getElementById("status");
 
-  let source =
-    from.value === "auto"
-      ? (isKaren(text) ? "kar" : "en")
-      : from.value;
+    const countElement =
+        document.getElementById("count");
 
-  let target = to.value;
+    const fromTitle =
+        document.getElementById("fromTitle");
 
-  if (
-    from.value === "auto" &&
-    source === target
-  ) {
-    target =
-      source === "en"
-        ? "kar"
-        : "en";
+    const toTitle =
+        document.getElementById("toTitle");
 
-    to.value = target;
 
-    $("toTitle").textContent =
-      target === "en"
-        ? "English"
-        : "S'gaw Karen";
-  }
+    const text =
+        inputElement.value.trim();
 
-  if (source === target) {
-    output.textContent = text;
-    status.textContent = "Same language";
-    return;
-  }
 
-  const result = translate(text, source);
+    /*
+       Character count
+    */
 
-  if (result) {
-    output.textContent = result;
+    if (countElement) {
 
-    status.textContent =
-      (source === "en"
-        ? "English"
-        : "S'gaw Karen") +
-      " → " +
-      (target === "en"
-        ? "English"
-        : "S'gaw Karen");
-  } else {
-    output.textContent =
-      "No translation found in the current dictionary.";
+        countElement.textContent =
+            inputElement.value.length +
+            " characters";
+    }
 
-    status.textContent = "Phrase not found";
-  }
+
+    /*
+       Update language labels
+    */
+
+    if (fromTitle) {
+
+        if (fromElement.value === "en") {
+
+            fromTitle.textContent =
+                "English";
+
+        } else if (fromElement.value === "kar") {
+
+            fromTitle.textContent =
+                "S'gaw Karen";
+
+        } else {
+
+            fromTitle.textContent =
+                "English / S'gaw Karen";
+        }
+    }
+
+
+    if (toTitle) {
+
+        toTitle.textContent =
+            toElement.value === "en"
+                ? "English"
+                : "S'gaw Karen";
+    }
+
+
+    /*
+       Empty input
+    */
+
+    if (!text) {
+
+        outputElement.textContent =
+            "Your translation will appear here.";
+
+        if (statusElement) {
+
+            statusElement.textContent =
+                "Ready";
+        }
+
+        return;
+    }
+
+
+    /*
+       Detect source language.
+    */
+
+    let source;
+
+
+    if (fromElement.value === "auto") {
+
+        source =
+            isKaren(text)
+                ? "kar"
+                : "en";
+
+    } else {
+
+        source =
+            fromElement.value;
+    }
+
+
+    /*
+       Target language
+    */
+
+    let target =
+        toElement.value;
+
+
+    /*
+       If automatic detection selected the same target,
+       automatically switch the target language.
+    */
+
+    if (
+        fromElement.value === "auto" &&
+        source === target
+    ) {
+
+        target =
+            source === "en"
+                ? "kar"
+                : "en";
+
+
+        toElement.value =
+            target;
+
+
+        if (toTitle) {
+
+            toTitle.textContent =
+                target === "en"
+                    ? "English"
+                    : "S'gaw Karen";
+        }
+    }
+
+
+    /*
+       Same language
+    */
+
+    if (source === target) {
+
+        outputElement.textContent =
+            text;
+
+        if (statusElement) {
+
+            statusElement.textContent =
+                "Same language";
+        }
+
+        return;
+    }
+
+
+    /*
+       Translate
+    */
+
+    const result =
+        translate(
+            text,
+            source
+        );
+
+
+    /*
+       Successful translation
+    */
+
+    if (result) {
+
+        outputElement.textContent =
+            result;
+
+
+        if (statusElement) {
+
+            statusElement.textContent =
+                (
+                    source === "en"
+                        ? "English"
+                        : "S'gaw Karen"
+                ) +
+                " → " +
+                (
+                    target === "en"
+                        ? "English"
+                        : "S'gaw Karen"
+                );
+        }
+
+
+        return;
+    }
+
+
+    /*
+       Translation not found
+    */
+
+    outputElement.textContent =
+        "No translation found in the current dictionary.\n\n" +
+        "Add this phrase to data/dictionary.json.";
+
+
+    if (statusElement) {
+
+        statusElement.textContent =
+            "Phrase not found";
+    }
 }
 
 
-/* ============================================================
-   UI
-   ============================================================ */
+/* =========================================================
+   TRANSLATE BUTTON
+========================================================= */
 
-$("translate").onclick = run;
+const translateButton =
+    document.getElementById("translate");
 
-$("clear").onclick = () => {
-  input.value = "";
-  run();
-  input.focus();
-};
 
-$("copy").onclick = async () => {
-  try {
-    await navigator.clipboard.writeText(
-      output.textContent
+if (translateButton) {
+
+    translateButton.addEventListener(
+        "click",
+        runTranslation
     );
+}
 
-    $("copy").classList.add("copied");
-    status.textContent = "Copied!";
 
-    setTimeout(() => {
-      $("copy").classList.remove("copied");
-    }, 1000);
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
 
-  } catch {
-    status.textContent = "Copy failed";
-  }
-};
+const clearButton =
+    document.getElementById("clear");
 
-$("swap").onclick = () => {
-  const oldInput = input.value;
-  const oldOutput = output.textContent;
 
-  const source =
-    from.value === "auto"
-      ? (isKaren(oldInput) ? "kar" : "en")
-      : from.value;
+if (clearButton) {
 
-  from.value = to.value;
-  to.value = source;
+    clearButton.addEventListener(
+        "click",
+        function () {
 
-  input.value =
-    oldOutput.startsWith("Your translation") ||
-    oldOutput.startsWith("No translation")
-      ? ""
-      : oldOutput;
+            const inputElement =
+                document.getElementById("input");
 
-  output.textContent =
-    oldInput ||
-    "Your translation will appear here.";
 
-  run();
-};
+            inputElement.value = "";
 
-$("feedback").onclick = () => {
-  alert(
-    "Correction workflow can be connected to your online language database later."
-  );
-};
 
-$("voice").onclick = () => {
-  const Recognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+            runTranslation();
 
-  if (!Recognition) {
-    alert(
-      "Speech recognition is not supported in this browser."
+
+            inputElement.focus();
+        }
     );
-    return;
-  }
-
-  const recognition = new Recognition();
-
-  recognition.lang = "en-US";
-
-  recognition.onresult = event => {
-    input.value =
-      event.results[0][0].transcript;
-
-    from.value = "en";
-    to.value = "kar";
-
-    run();
-  };
-
-  recognition.start();
-};
-
-from.onchange = run;
-to.onchange = run;
-
-let timer;
-
-input.oninput = () => {
-  clearTimeout(timer);
-
-  timer = setTimeout(run, 200);
-};
+}
 
 
-/* ============================================================
-   START
-   ============================================================ */
+/* =========================================================
+   COPY BUTTON
+========================================================= */
 
-(async function init() {
-  setDataStatus("Loading language data…", "");
+const copyButton =
+    document.getElementById("copy");
 
-  await loadLanguageData();
 
-  run();
-})();
+if (copyButton) {
+
+    copyButton.addEventListener(
+        "click",
+        async function () {
+
+            const outputElement =
+                document.getElementById("output");
+
+            const statusElement =
+                document.getElementById("status");
+
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    outputElement.textContent
+                );
+
+
+                if (statusElement) {
+
+                    statusElement.textContent =
+                        "Copied!";
+                }
+
+            } catch (error) {
+
+                /*
+                   Fallback for browsers that do not allow
+                   navigator.clipboard.
+                */
+
+                const range =
+                    document.createRange();
+
+
+                range.selectNodeContents(
+                    outputElement
+                );
+
+
+                const selection =
+                    window.getSelection();
+
+
+                selection.removeAllRanges();
+
+                selection.addRange(range);
+
+
+                try {
+
+                    document.execCommand("copy");
+
+                    if (statusElement) {
+
+                        statusElement.textContent =
+                            "Copied!";
+                    }
+
+                } catch (copyError) {
+
+                    if (statusElement) {
+
+                        statusElement.textContent =
+                            "Copy failed";
+                    }
+                }
+
+
+                selection.removeAllRanges();
+            }
+        }
+    );
+}
+
+
+/* =========================================================
+   SWAP LANGUAGES
+========================================================= */
+
+const swapButton =
+    document.getElementById("swap");
+
+
+if (swapButton) {
+
+    swapButton.addEventListener(
+        "click",
+        function () {
+
+            const inputElement =
+                document.getElementById("input");
+
+            const outputElement =
+                document.getElementById("output");
+
+            const fromElement =
+                document.getElementById("from");
+
+            const toElement =
+                document.getElementById("to");
+
+
+            const oldInput =
+                inputElement.value;
+
+
+            const oldOutput =
+                outputElement.textContent;
+
+
+            /*
+               Swap language selections.
+            */
+
+            const oldFrom =
+                fromElement.value;
+
+            fromElement.value =
+                toElement.value;
+
+            toElement.value =
+                oldFrom;
+
+
+            /*
+               Put translation into input.
+            */
+
+            if (
+                oldOutput &&
+                !oldOutput.startsWith(
+                    "Your translation"
+                ) &&
+                !oldOutput.startsWith(
+                    "No translation found"
+                )
+            ) {
+
+                inputElement.value =
+                    oldOutput;
+
+            } else {
+
+                inputElement.value =
+                    "";
+            }
+
+
+            /*
+               Output receives old input.
+            */
+
+            outputElement.textContent =
+                oldInput ||
+                "Your translation will appear here.";
+
+
+            runTranslation();
+        }
+    );
+}
+
+
+/* =========================================================
+   VOICE INPUT
+========================================================= */
+
+const voiceButton =
+    document.getElementById("voice");
+
+
+if (voiceButton) {
+
+    voiceButton.addEventListener(
+        "click",
+        function () {
+
+            const SpeechRecognition =
+                window.SpeechRecognition ||
+                window.webkitSpeechRecognition;
+
+
+            if (!SpeechRecognition) {
+
+                alert(
+                    "Speech recognition is not supported " +
+                    "in this browser."
+                );
+
+                return;
+            }
+
+
+            const recognition =
+                new SpeechRecognition();
+
+
+            recognition.lang =
+                "en-US";
+
+
+            recognition.interimResults =
+                false;
+
+
+            recognition.maxAlternatives =
+                1;
+
+
+            recognition.onresult =
+                function (event) {
+
+                    const transcript =
+                        event
+                            .results[0][0]
+                            .transcript;
+
+
+                    const inputElement =
+                        document.getElementById("input");
+
+
+                    const fromElement =
+                        document.getElementById("from");
+
+                    const toElement =
+                        document.getElementById("to");
+
+
+                    inputElement.value =
+                        transcript;
+
+
+                    fromElement.value =
+                        "en";
+
+
+                    toElement.value =
+                        "kar";
+
+
+                    runTranslation();
+                };
+
+
+            recognition.onerror =
+                function () {
+
+                    const statusElement =
+                        document.getElementById("status");
+
+
+                    if (statusElement) {
+
+                        statusElement.textContent =
+                            "Voice input error";
+                    }
+                };
+
+
+            recognition.start();
+        }
+    );
+}
+
+
+/* =========================================================
+   SUGGEST A CORRECTION
+========================================================= */
+
+const feedbackButton =
+    document.getElementById("feedback");
+
+
+if (feedbackButton) {
+
+    feedbackButton.addEventListener(
+        "click",
+        function () {
+
+            alert(
+                "Correction workflow can be connected here later."
+            );
+        }
+    );
+}
+
+
+/* =========================================================
+   LANGUAGE SELECTORS
+========================================================= */
+
+const fromSelect =
+    document.getElementById("from");
+
+
+const toSelect =
+    document.getElementById("to");
+
+
+if (fromSelect) {
+
+    fromSelect.addEventListener(
+        "change",
+        runTranslation
+    );
+}
+
+
+if (toSelect) {
+
+    toSelect.addEventListener(
+        "change",
+        runTranslation
+    );
+}
+
+
+/* =========================================================
+   LIVE TRANSLATION WHILE TYPING
+========================================================= */
+
+const inputField =
+    document.getElementById("input");
+
+
+let translationTimer;
+
+
+if (inputField) {
+
+    inputField.addEventListener(
+        "input",
+        function () {
+
+            clearTimeout(
+                translationTimer
+            );
+
+
+            translationTimer =
+                setTimeout(
+                    runTranslation,
+                    250
+                );
+        }
+    );
+}
+
+
+/* =========================================================
+   DATABASE COUNT
+========================================================= */
+
+const databaseCount =
+    document.getElementById("dbCount");
+
+
+if (databaseCount) {
+
+    databaseCount.textContent =
+        dictionary.length +
+        " starter entries";
+}
+
+
+/* =========================================================
+   EXAMPLE PHRASE CHIPS
+========================================================= */
+
+const chipsContainer =
+    document.getElementById("chips");
+
+
+if (chipsContainer) {
+
+    /*
+       Show the first examples.
+
+       We use a fixed number so the UI does not become
+       overloaded if the dictionary becomes very large.
+    */
+
+    const examples =
+        dictionary.slice(
+            0,
+            Math.min(
+                16,
+                dictionary.length
+            )
+        );
+
+
+    chipsContainer.innerHTML =
+        examples
+            .map(
+                entry =>
+                    `<button class="chip" type="button">${entry.english}</button>`
+            )
+            .join("");
+
+
+    const chips =
+        chipsContainer.querySelectorAll(
+            ".chip"
+        );
+
+
+    chips.forEach(
+        (chip, index) => {
+
+            chip.addEventListener(
+                "click",
+                function () {
+
+                    const inputElement =
+                        document.getElementById(
+                            "input"
+                        );
+
+                    const fromElement =
+                        document.getElementById(
+                            "from"
+                        );
+
+                    const toElement =
+                        document.getElementById(
+                            "to"
+                        );
+
+
+                    inputElement.value =
+                        examples[index].english;
+
+
+                    fromElement.value =
+                        "en";
+
+
+                    toElement.value =
+                        "kar";
+
+
+                    runTranslation();
+                }
+            );
+        }
+    );
+}
+
+
+/* =========================================================
+   INITIALIZE APPLICATION
+========================================================= */
+
+runTranslation();
