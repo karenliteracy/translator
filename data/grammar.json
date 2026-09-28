@@ -1,1 +1,114 @@
-
+{
+  "version": "1.0.0",
+  "language": "S'gaw Karen",
+  "context_aware": true,
+  "pronoun_order": [
+    "ပဝဲသ့ၣ်",
+    "အဝဲသ့ၣ်",
+    "ယၤ",
+    "နၤ",
+    "ယ",
+    "န",
+    "ပ",
+    "အီၤ",
+    "အ"
+  ],
+  "rules": [
+    {
+      "id": "pronoun_plus_noun",
+      "type": "possessive_compound",
+      "examples": {
+        "ယမံၤ": "my name",
+        "နမံၤ": "your name",
+        "အမံၤ": "his/her name",
+        "ပမံၤ": "our name",
+        "အဝဲသ့ၣ်မံၤ": "their name",
+        "ယဟံၣ်": "my house",
+        "နဟံၣ်": "your house",
+        "အဟံၣ်": "his/her house",
+        "ပဟံၣ်": "our house",
+        "အဝဲသ့ၣ်ဟံၣ်": "their house"
+      }
+    },
+    {
+      "id": "pronoun_plus_ta",
+      "type": "possessive_indicator",
+      "indicator": "တၢ်",
+      "examples": {
+        "ယတၢ်": "mine / my thing",
+        "နတၢ်": "yours / your thing",
+        "ပတၢ်": "ours / our thing",
+        "ပဝဲသ့ၣ်တၢ်": "ours / our thing",
+        "အတၢ်": "his/hers / his/her thing",
+        "အဝဲသ့ၣ်တၢ်": "theirs / their thing"
+      }
+    },
+    {
+      "id": "object_pronouns",
+      "type": "grammatical_role",
+      "examples": {
+        "ယ": "I",
+        "ယၤ": "me",
+        "န": "you",
+        "နၤ": "you",
+        "အ": "he/she",
+        "အီၤ": "him/her"
+      }
+    },
+    {
+      "id": "gender_neutral_a",
+      "type": "gender_neutral_pronoun",
+      "description": "အ is gender-neutral. Without context, preserve he/she or his/her rather than choosing a gender."
+    },
+    {
+      "id": "plural_they",
+      "type": "pronoun",
+      "examples": {
+        "အဝဲသ့ၣ်": "they",
+        "အဝဲသ့ၣ်မံၤ": "their name",
+        "အဝဲသ့ၣ်ဟံၣ်": "their house",
+        "အဝဲသ့ၣ်တၢ်": "their / theirs"
+      }
+    },
+    {
+      "id": "ta_indicator",
+      "type": "noun_possession_indicator",
+      "description": "တၢ် can indicate possession or refer to a thing/noun concept depending on context."
+    },
+    {
+      "id": "longest_match_first",
+      "type": "processing_order",
+      "description": "Match the longest complete phrase or grammar expression before shorter words."
+    }
+  ],
+  "english_possessive_patterns": {
+    "my name": "ယမံၤ",
+    "your name": "နမံၤ",
+    "his name": "အမံၤ",
+    "her name": "အမံၤ",
+    "our name": "ပမံၤ",
+    "their name": "အဝဲသ့ၣ်မံၤ",
+    "my house": "ယဟံၣ်",
+    "your house": "နဟံၣ်",
+    "his house": "အဟံၣ်",
+    "her house": "အဟံၣ်",
+    "our house": "ပဟံၣ်",
+    "their house": "အဝဲသ့ၣ်ဟံၣ်"
+  },
+  "audio": {
+    "enabled": true,
+    "repository": "https://github.com/karenliteracy/Alphabet-Audio",
+    "raw_base_url": "https://raw.githubusercontent.com/karenliteracy/Alphabet-Audio/main/",
+    "filename_rule": "Exact Karen Unicode text + .mp3",
+    "example": {
+      "text": "တၢ်",
+      "file": "တၢ်.mp3"
+    },
+    "missing_audio": "If an exact audio file does not exist, continue without audio for that unit.",
+    "playback": {
+      "queue": true,
+      "wait_for_each_audio_to_finish": true,
+      "crossfade_milliseconds": 120
+    }
+  }
+}
