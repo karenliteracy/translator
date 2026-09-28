@@ -1,365 +1,145 @@
 {
   "version": "1.0.0",
-  "entries": [
-    {
-      "english": "I love you",
-      "karen": "ယအဲၣ်နၤ"
+  "language": "S'gaw Karen",
+  "possession_indicator": "တၢ်",
+  "variants": {
+    "ပ၀ဲသ့ၣ်": "ပဝဲသ့ၣ်",
+    "အ၀ဲသ့ၣ်": "အဝဲသ့ၣ်"
+  },
+  "pronouns": {
+    "ယ": {
+      "subject": "I",
+      "object": "me",
+      "possessive": "my"
     },
-    {
-      "english": "Hello",
-      "karen": "ဟါလိၤ"
+    "ယၤ": {
+      "subject": null,
+      "object": "me",
+      "possessive": null
     },
-{
-      "english": "selfie",
-      "karen": "ဒိလီၤနီၢ်ကစၢ်တၢ်ဂီၤ"
+    "န": {
+      "subject": "you",
+      "object": "you",
+      "possessive": "your"
     },
-    {
-      "english": "How are you?",
-      "karen": "နအိၣ်ဆူၣ်အိၣ်ချ့ဧါ"
+    "နၤ": {
+      "subject": null,
+      "object": "you",
+      "possessive": null
     },
-    {
-      "english": "I am fine",
-      "karen": "ယအိၣ်ဆူၣ်အိၣ်ချ့လီၤ"
+    "ပ": {
+      "subject": "we",
+      "object": "us",
+      "possessive": "our"
     },
-    {
-      "english": "Thank you",
-      "karen": "တၢ်ဘျုးတၢ်ဖှိၣ်"
+    "ပၤ": {
+      "subject": null,
+      "object": "us",
+      "possessive": null
     },
-    {
-      "english": "Yes",
-      "karen": "မ့ၢ်"
+    "ပဝဲသ့ၣ်": {
+      "subject": "we",
+      "object": "us",
+      "possessive": "our"
     },
-    {
-      "english": "No",
-      "karen": "တမ့ၢ်ဘၣ်"
+    "အ": {
+      "subject": "he/she",
+      "object": "him/her",
+      "possessive": "his/her",
+      "gender_neutral": true
     },
-    {
-      "english": "My name is Soe.",
-      "karen": "ယမံၤမ့ၢ်စိ"
+    "အီၤ": {
+      "subject": null,
+      "object": "him/her",
+      "possessive": null
     },
-    {
-      "english": "Where are you going?",
-      "karen": "နကလဲၤဖဲလဲၣ်"
-    },
-    {
-      "english": "I am going home.",
-      "karen": "ယကလဲၤဆူဟံၣ်"
-    },
-    {
-      "english": "I understand.",
-      "karen": "ယနၢ်ပၢၢ်"
-    },
-    {
-      "english": "I don't understand.",
-      "karen": "ယတနၢ်ပၢၢ်ဘၣ်"
-    },
-    {
-      "english": "Can you help me?",
-      "karen": "နမၤစၢၤယၤသ့ဧါ"
-    },
-    {
-      "english": "Help me.",
-      "karen": "မၤစၢၤယၤ"
-    },
-    {
-      "english": "Come here.",
-      "karen": "ဟဲဖဲအံၤ"
-    },
-    {
-      "english": "Water",
-      "karen": "ထံ"
-    },
-    {
-      "english": "Food",
-      "karen": "တၢ်အီၣ်"
-    },
-    {
-      "english": "House",
-      "karen": "ဟံၣ်"
-    },
-    {
-      "english": "School",
-      "karen": "ကၠိ"
-    },
-    {
-      "english": "Church",
-      "karen": "ဘူၣ်ကျီၢ်"
-    },
-    {
-      "english": "Friend",
-      "karen": "သကိး"
-    },
-    {
-      "english": "Mother",
-      "karen": "မိၢ်"
-    },
-    {
-      "english": "Father",
-      "karen": "ပၢ်"
-    },
-    {
-      "english": "Child",
-      "karen": "ဖိ"
-    },
-    {
-      "english": "Person",
-      "karen": "ပှၤ"
-    },
-    {
-      "english": "Today",
-      "karen": "မုၢ်မဆါတနံၤအံၤ"
-    },
-    {
-      "english": "Tomorrow",
-      "karen": "ခဲမုၢ်ဆါ"
-    },
-    {
-      "english": "What",
-      "karen": "မနုၤ"
-    },
-    {
-      "english": "Who",
-      "karen": "မတဂၤ"
-    },
-    {
-      "english": "Where",
-      "karen": "ဖဲလဲၣ်"
-    },
-    {
-      "english": "When",
-      "karen": "ဖဲလဲၣ်အခါ"
-    },
-    {
-      "english": "Why",
-      "karen": "ဘၣ်မနုၤလဲၣ်"
-    },
-    {
-      "english": "How",
-      "karen": "ဒ်လဲၣ်"
-    },
-    {
-      "english": "I",
-      "karen": "ယ"
-    },
-    {
-      "english": "You",
-      "karen": "န"
-    },
-    {
-      "english": "We",
-      "karen": "ပ"
-    },
-    {
-      "english": "They",
-      "karen": "အဝဲသ့ၣ်"
-    },
-    {
-      "english": "Name",
-      "karen": "မံၤ"
-    },
-    {
-      "english": "Home",
-      "karen": "ဟံၣ်"
-    },
-    {
-      "english": "Love",
-      "karen": "အဲၣ်"
-    },
-    {
-      "english": "Go",
-      "karen": "လဲၤ"
-    },
-    {
-      "english": "Come",
-      "karen": "ဟဲ"
-    },
-    {
-      "english": "Eat",
-      "karen": "အီၣ်"
-    },
-    {
-      "english": "Drink",
-      "karen": "အီ"
-    },
-    {
-      "english": "See",
-      "karen": "ထံၣ်"
-    },
-    {
-      "english": "Hear",
-      "karen": "နၢ်"
-    },
-    {
-      "english": "Speak",
-      "karen": "စံး"
-    },
-    {
-      "english": "Read",
-      "karen": "ဖး"
-    },
-    {
-      "english": "Write",
-      "karen": "ကွဲး"
-    },
-    {
-      "english": "Learn",
-      "karen": "မၤလိ"
-    },
-    {
-      "english": "Work",
-      "karen": "မၤတၢ်"
-    },
-    {
-      "english": "Good",
-      "karen": "ဂ့ၤ"
-    },
-    {
-      "english": "Bad",
-      "karen": "အၢ"
-    },
-    {
-      "english": "Big",
-      "karen": "ဒိၣ်"
-    },
-    {
-      "english": "Small",
-      "karen": "ဆံး"
-    },
-    {
-      "english": "New",
-      "karen": "အသီ"
-    },
-    {
-      "english": "Health",
-      "karen": "တၢ်အိၣ်ဆူၣ်အိၣ်ချ့"
-    },
-    {
-      "english": "Doctor",
-      "karen": "ကသံၣ်သရၣ်"
-    },
-    {
-      "english": "Hospital",
-      "karen": "တၢ်ဆါဟံၣ်"
-    },
-    {
-  "english": "He",
-  "karen": "အ"
-},
-{
-  "english": "She",
-  "karen": "အ"
-},
-{
-  "english": "He / She",
-  "karen": "အ"
-},
-{
-  "english": "His",
-  "karen": "အတၢ်"
-},
-{
-  "english": "Hers",
-  "karen": "အတၢ်"
-},
-{
-  "english": "His / Hers",
-  "karen": "အတၢ်"
-},
-{
-  "english": "My",
-  "karen": "ယတၢ်"
-},
-{
-  "english": "Mine",
-  "karen": "ယတၢ်"
-},
-{
-  "english": "My / Mine",
-  "karen": "ယတၢ်"
-},
-{
-  "english": "Your",
-  "karen": "နတၢ်"
-},
-{
-  "english": "Yours",
-  "karen": "နတၢ်"
-},
-{
-  "english": "Your / Yours",
-  "karen": "နတၢ်"
-},
-{
-  "english": "Our",
-  "karen": "ပတၢ်"
-},
-{
-  "english": "Ours",
-  "karen": "ပတၢ်"
-},
-{
-  "english": "Our / Ours",
-  "karen": "ပတၢ်"
-},
-{
-  "english": "Us",
-  "karen": "ပ၀ဲသ့ၣ်"
-},
-{
-  "english": "Our / Ours (plural)",
-  "karen": "ပ၀ဲသ့ၣ်တၢ်"
-},
-{
-  "english": "They",
-  "karen": "အ၀ဲသ့ၣ်"
-},
-{
-  "english": "Their",
-  "karen": "အ၀ဲသ့ၣ်တၢ်"
-},
-{
-  "english": "Theirs",
-  "karen": "အ၀ဲသ့ၣ်တၢ်"
-},
-{
-  "english": "Their / Theirs",
-  "karen": "အ၀ဲသ့ၣ်တၢ်"
-},
-{
-  "english": "Noun marker",
-  "karen": "တၢ်"
-},
-{
-  "english": "Love",
-  "karen": "တၢ်အဲၣ်"
-},
-{
-  "english": "Love / Affection",
-  "karen": "တၢ်အဲၣ်တၢ်ကွံ"
-},
-{
-  "english": "Patience",
-  "karen": "တၢ်သူၣ်စူၤသးစူၤ"
-},
-{
-  "english": "Good deeds",
-  "karen": "တၢ်မၤဂ့ၤတၢ်"
-},
-{
-  "english": "A talk",
-  "karen": "တၢ်တဲတၢ်"
-},
-{
-  "english": "Conversation",
-  "karen": "တၢ်တဲတၢ်"
-},
-{
-  "english": "Speaking / Conversation",
-  "karen": "တၢ်ကတိၤတၢ်"
-},
-    {
-      "english": "Medicine",
-      "karen": "ကသံၣ်"
+    "အဝဲသ့ၣ်": {
+      "subject": "they",
+      "object": "them",
+      "possessive": "their"
     }
-  ]
+  },
+  "nouns": {
+    "မံၤ": "name",
+    "ဟံၣ်": "house",
+    "ကၠိ": "school",
+    "ဘူၣ်ကျီၢ်": "hospital",
+    "သကိး": "friend",
+    "မိၢ်": "mother",
+    "ပၢ်": "father",
+    "ဖိ": "child",
+    "ပှၤ": "person",
+    "ထံ": "water",
+    "တၢ်အီၣ်": "food",
+    "ကသံၣ်": "medicine",
+    "ကသံၣ်သရၣ်": "doctor",
+    "တၢ်အိၣ်ဆူၣ်အိၣ်ချ့": "health",
+    "အဲၣ်": "love",
+    "တၢ်ဟ့ၣ်တခါ": "this gift"
+  },
+  "special_nouns": {
+    "တၢ်အဲၣ်": "love",
+    "တၢ်အဲၣ်တၢ်ကွံ": "love",
+    "တၢ်သူၣ်စူၤသးစူၤ": "patience",
+    "တၢ်မၤဂ့ၤတၢ်": "good deeds",
+    "တၢ်တဲတၢ်": "talk / conversation",
+    "တၢ်ကတိၤတၢ်": "talk / conversation"
+  },
+  "phrases": {
+    "ယအဲၣ်နၤ": "I love you",
+    "မုၢ်ဆါ": "Hello / Good morning",
+    "တၢ်ဘျုးတၢ်ဖှိၣ်": "Thank you",
+    "မ့ၢ်": "Yes",
+    "တမ့ၢ်ဘၣ်": "No",
+    "အလဲၤဆူကၠိ": "He/she goes to school",
+    "တၢ်ဟ့ၣ်တခါအံၤနဟ့ၣ်ဆူယၤ": "You give this gift to me"
+  },
+  "english_to_karen": {
+    "I": "ယ",
+    "me": "ယၤ",
+    "my": "ယ",
+    "you": "န",
+    "your": "န",
+    "we": "ပ",
+    "us": "ပၤ",
+    "our": "ပ",
+    "he": "အ",
+    "she": "အ",
+    "him": "အီၤ",
+    "her": "အီၤ",
+    "his": "အ",
+    "hers": "အ",
+    "they": "အဝဲသ့ၣ်",
+    "them": "အဝဲသ့ၣ်",
+    "their": "အဝဲသ့ၣ်",
+    "theirs": "အဝဲသ့ၣ်တၢ်",
+    "name": "မံၤ",
+    "house": "ဟံၣ်",
+    "school": "ကၠိ",
+    "hospital": "ဘူၣ်ကျီၢ်",
+    "friend": "သကိး",
+    "mother": "မိၢ်",
+    "father": "ပၢ်",
+    "child": "ဖိ",
+    "person": "ပှၤ",
+    "water": "ထံ",
+    "food": "တၢ်အီၣ်",
+    "medicine": "ကသံၣ်",
+    "doctor": "ကသံၣ်သရၣ်",
+    "health": "တၢ်အိၣ်ဆူၣ်အိၣ်ချ့",
+    "love": "တၢ်အဲၣ်",
+    "gift": "တၢ်ဟ့ၣ်တခါ",
+    "patience": "တၢ်သူၣ်စူၤသးစူၤ",
+    "good deeds": "တၢ်မၤဂ့ၤတၢ်",
+    "talk": "တၢ်တဲတၢ်",
+    "conversation": "တၢ်ကတိၤတၢ်"
+  },
+  "english_phrases": {
+    "I love you": "ယအဲၣ်နၤ",
+    "Hello": "မုၢ်ဆါ",
+    "Good morning": "မုၢ်ဆါ",
+    "Thank you": "တၢ်ဘျုးတၢ်ဖှိၣ်",
+    "Yes": "မ့ၢ်",
+    "No": "တမ့ၢ်ဘၣ်"
+  }
 }
